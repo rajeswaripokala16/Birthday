@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Developer's Birthday Wish</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      background-image: url("Image2.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .card-wrapper {
+      text-align: center;
+      animation: fadeIn 2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .heading {
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: #f5d76e;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Music button */
+    .music-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      margin-bottom: 1.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245,215,110,0.7);
+      background: rgba(0,0,0,0.5);
+      color: #f5d76e;
+      font-size: 0.9rem;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.25s, transform 0.15s;
+    }
+
+    .music-btn:hover {
+      background: rgba(245,215,110,0.15);
+      transform: translateY(-1px);
+    }
+
+    .music-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff4d6a;
+      box-shadow: 0 0 8px rgba(255,77,106,0.8);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .music-dot.playing {
+      background: #4dff88;
+      box-shadow: 0 0 10px rgba(77,255,136,0.9);
+    }
+
+    .card {
+      position: relative;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle at center, #222 0%, #000 70%);
+      border-radius: 18px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: conic-gradient(
+        from 180deg at 50% 50%,
+        #ffb6c1 0%,
+        #7fffd4 25%,
+        #f5d76e 50%,
+        #ffb6c1 75%,
+        #7fffd4 100%
+      );
+      filter: blur(6px);
+      opacity: 0.7;
+      z-index: -1;
+      animation: rotate 8s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .flowers {
+      position: absolute;
+      inset: 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .flowers::before,
+    .flowers::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 1px solid rgba(120, 220, 200, 0.4);
+      box-shadow:
+        0 -40px 0 -15px #ffb6c1,
+        0 40px 0 -15px #ffb6c1;
+      mix-blend-mode: screen;
+    }
+
+    .flowers::before { transform: rotate(-12deg); }
+    .flowers::after  { transform: rotate(12deg); }
+
+    .leaf {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle at 20% 20%, #b3ffe6, #00a684);
+      border-radius: 100% 10% 80% 10%;
+      opacity: 0.9;
+    }
+
+    .leaf:nth-child(1) { top: 40px; left: 50px; transform: rotate(-30deg); }
+    .leaf:nth-child(2) { top: 40px; right: 50px; transform: scaleX(-1) rotate(-30deg); }
+    .leaf:nth-child(3) { bottom: 40px; left: 50px; transform: rotate(210deg); }
+    .leaf:nth-child(4) { bottom: 40px; right: 50px; transform: scaleX(-1) rotate(210deg); }
+
+    .bud {
+      position: absolute;
+      width: 55px;
+      height: 70px;
+      background: radial-gradient(circle at 30% 10%, #ffeef2, #ff8fab);
+      border-radius: 60% 60% 50% 50%;
+      box-shadow: 0 0 12px rgba(255, 182, 193, 0.7);
+    }
+
+    .bud:nth-child(5) { top: 60px; left: 80px; }
+    .bud:nth-child(6) { top: 60px; right: 80px; }
+    .bud:nth-child(7) { bottom: 60px; left: 80px; }
+    .bud:nth-child(8) { bottom: 60px; right: 80px; }
+
+    .text-block {
+      position: relative;
+      text-align: center;
+      z-index: 2;
+      padding: 0 20px;
+    }
+
+    .text-top {
+      font-size: 0.9rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #e0e0e0;
+      margin-bottom: 1.4rem;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .birthday {
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #f5d76e, #ffb6c1, #7fffd4);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(245, 215, 110, 0.5);
+      margin-bottom: 1rem;
+      letter-spacing: -2px;
+      animation: glow 2s ease-in-out infinite alternate;
+      text-transform: uppercase;
+    }
+
+    .text-bottom {
+      font-size: 1.2rem;
+      color: #f5d76e;
+      letter-spacing: 0.1em;
+      font-weight: 300;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(245, 215, 110, 0.3), 0 0 20px rgba(245, 215, 110, 0.2); }
+      to   { text-shadow: 0 0 20px rgba(245, 215, 110, 0.6), 0 0 30px rgba(245, 215, 110, 0.4); }
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #f5d76e;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 3s linear infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hidden audio element -->
+  <audio id="bg-music" loop>
+    <source src="happy-birthday-254480.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="card-wrapper">
+    <h1 class="heading">Happy Birthday🎉🎂🥳✨🧁</h1>
+
+    <!-- Music button -->
+    <button class="music-btn" id="music-toggle">
+      <span class="music-dot" id="music-dot"></span>
+      <span id="music-label">Play Music</span>
+    </button>
+
+    <div class="card">
+      <div class="flowers">
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+
+        <div class="bud"></div>
+        <div class="bud"></div>
+        <div class="bud"></div>
+        <div class="bud"></div>
+
+        <div class="text-block">
+          <div class="text-top">Happy</div>
+          <div class="birthday">Birthday</div>
+          <div class="text-bottom">Donika</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Floating particle effect
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * 100 + window.innerHeight;
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.width = particle.style.height = (Math.random() * 6 + 2) + 'px';
+      particle.style.background = `hsl(${Math.random() * 60 + 30}, 100%, 70%)`;
+      document.body.appendChild(particle);
+      setTimeout(() => {
+        if (particle.parentNode) particle.parentNode.removeChild(particle);
+      }, 3000);
+    }
+
+    setInterval(createParticle, 300);
+
+    // Card click bounce + burst
+    document.querySelector('.card').addEventListener('click', function () {
+      this.style.transform = 'scale(0.95)';
+      setTimeout(() => { this.style.transform = 'scale(1)'; }, 150);
+      for (let i = 0; i < 10; i++) setTimeout(createParticle, i * 50);
+    });
+
+    // Hover text effect
+    const textElements = document.querySelectorAll('.text-top, .birthday, .text-bottom');
+    textElements.forEach(el => {
+      el.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.05)'; });
+      el.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)'; });
+    });
+
+    // Music button logic
+    const music = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle');
+    const musicDot = document.getElementById('music-dot');
+    const musicLabel = document.getElementById('music-label');
+
+    let isPlaying = false;
+
+    toggleBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        music.play();
+        isPlaying = true;
+        musicDot.classList.add('playing');
+        musicLabel.textContent = 'Pause Music';
+      } else {
+        music.pause();
+        isPlaying = false;
+        musicDot.classList.remove('playing');
+        musicLabel.textContent = 'Play Music';
+      }
+    });
+  </script>
+   
+  <!-- <a src="code2.html">Video Link</a> -->
+
+</body>
+</html>
